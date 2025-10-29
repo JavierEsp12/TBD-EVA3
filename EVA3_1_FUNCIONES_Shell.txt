@@ -1,0 +1,119 @@
+Microsoft Windows [Version 10.0.26100.6584]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\JAVIERALONSOESPINOZA>mysqlsh
+MySQL Shell 8.0.43
+
+Copyright (c) 2016, 2025, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > /sql
+Expected an operand but found / (SyntaxError)
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 51
+Server version: 8.0.43 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > create database tbd3;
+Query OK, 1 row affected (0.0789 sec)
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| orders             |
+| performance_schema |
+| prueba             |
+| sakila             |
+| sys                |
+| tbd1               |
+| tbd2               |
+| tbd3               |
+| world              |
++--------------------+
+11 rows in set (0.0044 sec)
+ MySQL  localhost:3306 ssl  SQL >  use tbd3;
+Default schema set to `tbd3`.
+Fetching global names, object names from `tbd3` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  tbd3  SQL > select mensaje();
++-------------+
+| mensaje()   |
++-------------+
+| Hola mundo! |
++-------------+
+1 row in set (0.0200 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > select mostrarmensaje("Javier");
++--------------------------+
+| mostrarmensaje("Javier") |
++--------------------------+
+| HolaJavier               |
++--------------------------+
+1 row in set (0.0059 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > select sumar(5,3);
++------------+
+| sumar(5,3) |
++------------+
+|          8 |
++------------+
+1 row in set (0.0061 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > create table datos(
+                                     -> valor1 int'
+                                     -> ;;
+                                     '> ;
+                                     '> '
+                                     -> ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''
+;;
+;
+'' at line 2
+ MySQL  localhost:3306 ssl  tbd3  SQL > create table datos( valor1 int, valor2 int);
+Query OK, 0 rows affected (0.1257 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > insert into datos
+                                     -> values (5,9),(8,2),(2,4);
+Query OK, 3 rows affected (0.0171 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd3  SQL > select * from datos;
++--------+--------+
+| valor1 | valor2 |
++--------+--------+
+|      5 |      9 |
+|      8 |      2 |
+|      2 |      4 |
++--------+--------+
+3 rows in set (0.0055 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > select valor1, valor2, sumar(valor1, valor2)
+                                     -> ;
+ERROR: 1054 (42S22): Unknown column 'valor1' in 'field list'
+ MySQL  localhost:3306 ssl  tbd3  SQL > select valor1, valor2, sumar(valor1, valor2) from datos;
++--------+--------+-----------------------+
+| valor1 | valor2 | sumar(valor1, valor2) |
++--------+--------+-----------------------+
+|      5 |      9 |                    14 |
+|      8 |      2 |                    10 |
+|      2 |      4 |                     6 |
++--------+--------+-----------------------+
+3 rows in set (0.0074 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > select compare(5,6);
+ERROR: 1305 (42000): FUNCTION tbd3.compare does not exist
+ MySQL  localhost:3306 ssl  tbd3  SQL > select comparar(5,6);
++---------------------------+
+| comparar(5,6)             |
++---------------------------+
+| valor 2 MAYOR que valor 1 |
++---------------------------+
+1 row in set (0.0020 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > select comparar(9,2);
++---------------------------+
+| comparar(9,2)             |
++---------------------------+
+| valor 1 MAYOR que valor 2 |
++---------------------------+
+1 row in set (0.0009 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL >
