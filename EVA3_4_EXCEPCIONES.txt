@@ -1,0 +1,202 @@
+EVA3_4_EXCEPCIONES
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > /sql
+Expected an operand but found / (SyntaxError)
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 51
+Server version: 8.0.43 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL >  use tbd3;
+Default schema set to `tbd3`.
+Fetching global names, object names from `tbd3` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  tbd3  SQL > create table personas(
+                                     -> rfc varchar(10) not null key,
+                                     -> nombre varchar(50) not null,
+                                     -> ap_paterno varchar(50) not null,
+                                     -> ap_materno varchar(50),
+                                     -> fecha_nac date);
+Query OK, 0 rows affected (0.4408 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL >
+ MySQL  localhost:3306 ssl  tbd3  SQL >
+ MySQL  localhost:3306 ssl  tbd3  SQL >
+ MySQL  localhost:3306 ssl  tbd3  SQL >
+ MySQL  localhost:3306 ssl  tbd3  SQL >
+ MySQL  localhost:3306 ssl  tbd3  SQL > call asignar_rfc("Javier", "Espinoza", "Palafox",2005-02-12);
+ERROR: 1292 (22007): Incorrect date value: '1991' for column 'fcha_nac' at row 1
+ MySQL  localhost:3306 ssl  tbd3  SQL > call asignar_rfc("Javier", "Espinoza", "Palafox","2005-02-12");
+Query OK, 1 row affected (0.0591 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > select * from personas;
++------+--------+------------+------------+------------+
+| rfc  | nombre | ap_paterno | ap_materno | fecha_nac  |
++------+--------+------------+------------+------------+
+| EsPJ | Javier | Espinoza   | Palafox    | 2005-02-12 |
++------+--------+------------+------------+------------+
+1 row in set (0.0067 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > call asignar_rfc("Javier", "Espinoza","2005-02-12");
+ERROR: 1318 (42000): Incorrect number of arguments for PROCEDURE tbd3.asignar_rfc; expected 4, got 3
+ MySQL  localhost:3306 ssl  tbd3  SQL > call asignar_rfc("Javier", "Espinoza", ,"2005-02-12");
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',"2005-02-12")' at line 1
+ MySQL  localhost:3306 ssl  tbd3  SQL > call asignar_rfc("Javier", "Espinoza"," " ,"2005-02-12");
+Query OK, 1 row affected (0.0146 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > select * from personas;
++------+--------+------------+------------+------------+
+| rfc  | nombre | ap_paterno | ap_materno | fecha_nac  |
++------+--------+------------+------------+------------+
+| Es J | Javier | Espinoza   |            | 2005-02-12 |
+| EsPJ | Javier | Espinoza   | Palafox    | 2005-02-12 |
++------+--------+------------+------------+------------+
+2 rows in set (0.0034 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > call agregar_persona("MARIO","MORENO","CANTINFLAS","1920-09-12");
+ERROR: 1305 (42000): FUNCTION tbd3.generar_rfc does not exist
+ MySQL  localhost:3306 ssl  tbd3  SQL > call agregar_persona("MARIO","MORENO","CANTINFLAS","1920-09-12");
+ERROR: 1146 (42S02): Table 'tbd3.persona' doesn't exist
+ MySQL  localhost:3306 ssl  tbd3  SQL > call agregar_persona("MARIO","MORENO","CANTINFLAS","1920-09-12");
+ERROR: 1054 (42S22): Unknown column 'calc_rfc' in 'field list'
+ MySQL  localhost:3306 ssl  tbd3  SQL > call agregar_persona("MARIO","MORENO","CANTINFLAS","1920-09-12");
+ERROR: 1305 (42000): PROCEDURE tbd3.agregar_persona does not exist
+ MySQL  localhost:3306 ssl  tbd3  SQL > call agregar_persona("MARIO","MORENO","CANTINFLAS","1920-09-12");
+Query OK, 1 row affected (0.0294 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > select * from personas;
++------------+--------+------------+------------+------------+
+| rfc        | nombre | ap_paterno | ap_materno | fecha_nac  |
++------------+--------+------------+------------+------------+
+| Es J       | Javier | Espinoza   |            | 2005-02-12 |
+| EsPJ       | Javier | Espinoza   | Palafox    | 2005-02-12 |
+| MOCM200912 | MARIO  | MORENO     | CANTINFLAS | 1920-09-12 |
++------------+--------+------------+------------+------------+
+3 rows in set (0.0108 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > call agregar_persona("JOSE","DOMINGUEZ","","1920-09-12");
+Query OK, 1 row affected (0.0130 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > select * from personas;
++------------+--------+------------+------------+------------+
+| rfc        | nombre | ap_paterno | ap_materno | fecha_nac  |
++------------+--------+------------+------------+------------+
+| DOJ200912  | JOSE   | DOMINGUEZ  |            | 1920-09-12 |
+| Es J       | Javier | Espinoza   |            | 2005-02-12 |
+| EsPJ       | Javier | Espinoza   | Palafox    | 2005-02-12 |
+| MOCM200912 | MARIO  | MORENO     | CANTINFLAS | 1920-09-12 |
++------------+--------+------------+------------+------------+
+4 rows in set (0.0053 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > call agregar_persona("JOSE","DOMINGUEZ", ,"1920-09-12");
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',"1920-09-12")' at line 1
+ MySQL  localhost:3306 ssl  tbd3  SQL > call agregar_persona("FABIO","DECO","0","1980-03-02");
+Query OK, 1 row affected (0.0132 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > select * from personas;
++------------+--------+------------+------------+------------+
+| rfc        | nombre | ap_paterno | ap_materno | fecha_nac  |
++------------+--------+------------+------------+------------+
+| DE0F800302 | FABIO  | DECO       | 0          | 1980-03-02 |
+| DOJ200912  | JOSE   | DOMINGUEZ  |            | 1920-09-12 |
+| Es J       | Javier | Espinoza   |            | 2005-02-12 |
+| EsPJ       | Javier | Espinoza   | Palafox    | 2005-02-12 |
+| MOCM200912 | MARIO  | MORENO     | CANTINFLAS | 1920-09-12 |
++------------+--------+------------+------------+------------+
+5 rows in set (0.0009 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > call agregar_persona("FABIO","DECO","1980-03-02");
+ERROR: 1318 (42000): Incorrect number of arguments for PROCEDURE tbd3.agregar_persona; expected 4, got 3
+ MySQL  localhost:3306 ssl  tbd3  SQL > set @valor = 0;
+Query OK, 0 rows affected (0.0088 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > select @valor;
++--------+
+| @valor |
++--------+
+|      0 |
++--------+
+1 row in set (0.0014 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > call calcular(3,@valor);
+Query OK, 0 rows affected (0.0114 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > select @valor;
++--------+
+| @valor |
++--------+
+|      9 |
++--------+
+1 row in set (0.0007 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > create table prueba(
+                                     -> id int not null key,);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 2
+ MySQL  localhost:3306 ssl  tbd3  SQL > create table prueba(id int not null key,);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+ MySQL  localhost:3306 ssl  tbd3  SQL > create table prueba1(id int not null key,);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+ MySQL  localhost:3306 ssl  tbd3  SQL > create table prueba(id int not null key);
+Query OK, 0 rows affected (0.1814 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > call insertar_prueba(4);
++-------------------------------+
+| mensaje                       |
++-------------------------------+
+| Clave insertada correctamente |
++-------------------------------+
+1 row in set (0.0195 sec)
+
+Query OK, 0 rows affected (0.0195 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > call insertar_prueba(4);
+ERROR: 1062 (23000): Duplicate entry '4' for key 'prueba.PRIMARY'
+ MySQL  localhost:3306 ssl  tbd3  SQL > call insertar_prueba(2);
++-------------------------------+
+| mensaje                       |
++-------------------------------+
+| Clave insertada correctamente |
++-------------------------------+
+1 row in set (0.0152 sec)
+
+Query OK, 0 rows affected (0.0152 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > call insertar_prueba(2);
++------------------------+
+| mensaje_error          |
++------------------------+
+| Error: clave duplicada |
++------------------------+
+1 row in set (0.0010 sec)
+
+Query OK, 0 rows affected (0.0010 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > call division(4,5);
++----------+
+| resu_fin |
++----------+
+|     0.80 |
++----------+
+1 row in set (0.0059 sec)
+
+Query OK, 0 rows affected (0.0059 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > call division(4,0);
+ERROR: 1365 (22012): Division by 0
+ MySQL  localhost:3306 ssl  tbd3  SQL > call division2(4,0);
++-----------------------------------------+
+| mensaje                                 |
++-----------------------------------------+
+| Error: division entre cero no permitida |
++-----------------------------------------+
+1 row in set (0.0068 sec)
+
+Query OK, 0 rows affected (0.0068 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > call division2(4,2);
++----------+
+| resu_fin |
++----------+
+|     2.00 |
++----------+
+1 row in set (0.0006 sec)
+
+Query OK, 0 rows affected (0.0006 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL > call division2(4,0);
++-----------------------------------------+
+| mensaje                                 |
++-----------------------------------------+
+| Error: division entre cero no permitida |
++-----------------------------------------+
+1 row in set (0.0061 sec)
+
++----------+
+| resu_fin |
++----------+
+|     NULL |
++----------+
+1 row in set (0.0061 sec)
+
+Query OK, 0 rows affected (0.0061 sec)
+ MySQL  localhost:3306 ssl  tbd3  SQL >
